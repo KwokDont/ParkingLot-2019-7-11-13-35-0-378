@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 public class ParkingLotMainTest {
 
     private ParkingLot parkingLot = new ParkingLot();
+    private SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
 
     @Test
     public void should_return_car_when_fetch_car_given_ticket() {
@@ -109,7 +110,7 @@ public class ParkingLotMainTest {
     }
 
     @Test
-    public void should_return_ticket__when_smart_parkingBoy_given_car() {
+    public void should_return_ticket_when_stupidparkingBoy_given_car() {
         //given
         StupidBoy parkingBoy = new StupidBoy();
         ParkingLot parkingLot2 = new ParkingLot(1);
@@ -130,5 +131,43 @@ public class ParkingLotMainTest {
         //then
         Assertions.assertSame(benz, fetchCar2);
         Assertions.assertSame(honda, fetchCar3);
+    }
+
+    @Test
+    public void should_return_ticket_when_super_smart_parkingBoy_given_car() {
+        //given
+        StupidBoy parkingBoy = new StupidBoy();
+        ParkingLot parkingLot2 = new ParkingLot(1);
+        parkingBoy.addParkingLot(parkingLot);
+        parkingBoy.addParkingLot(parkingLot2);
+
+        Car car = new Car("car","no1");
+        Car benz = new Car("benz","no2");
+        Car honda = new Car("honda","no3");
+        //when
+        Ticket ticket = parkingBoy.parkingCar(car);
+        Car fetchCar = parkingBoy.fetchCar(ticket);
+        Ticket ticket2 = parkingBoy.parkingCar(benz);
+        Ticket ticket3 = parkingBoy.parkingCar(honda);
+
+        Car fetchCar2 = parkingBoy.fetchCar(ticket2);
+        Car fetchCar3 = parkingBoy.fetchCar(ticket3);
+        //then
+        Assertions.assertSame(benz, fetchCar2);
+        Assertions.assertSame(honda, fetchCar3);
+    }
+
+    @Test
+    public void should_park_to_multiple_lot_when_smart_parkingBoy_given_car() {
+        //given
+        ParkingLot parkingLot2 = new ParkingLot(2);
+        smartParkingBoy.addParkingLot(parkingLot);
+        smartParkingBoy.addParkingLot(parkingLot2);
+        //when
+        Car car = new Car("car","no1");
+        Ticket ticket = smartParkingBoy.parkingCar(car);
+        ParkingLot parkingLotActual = ticket.getParkingLot();
+        //then
+        Assertions.assertSame(parkingLot, parkingLotActual);
     }
 }

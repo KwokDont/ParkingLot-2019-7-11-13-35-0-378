@@ -41,6 +41,10 @@ public class ParkingLot {
         return null;
     }
 
+    public int getCapacity() {
+        return capacity;
+    }
+
     public int getRestPosition() {
         return restPosition;
     }

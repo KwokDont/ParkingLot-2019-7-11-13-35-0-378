@@ -1,25 +1,20 @@
 package com.thoughtworks.tdd;
 
+import java.security.PublicKey;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class ParkingBoy {
+public class ParkingBoy extends Boy{
 
-    protected String message = "";
-    protected List<ParkingLot> parkingLotList = new ArrayList<>();
 
+    @Override
     public Ticket parkingCar(Car car) {
         if(car == null){
             return null;
         }
         Ticket ticket = null;
-        for(ParkingLot parkingLot:parkingLotList){
-            ticket = parkingLot.parkingCar(car);
-            if(ticket != null){
-                break;
-            }
-        }
+        ticket = parkingLotList.get(0).parkingCar(car);
         if(ticket == null){
             message = "Not enough position.";
         }
@@ -37,21 +32,5 @@ public class ParkingBoy {
         }
         message = "Please provide your parking ticket.";
         return null;
-    }
-
-    public void addParkingLot(ParkingLot parkingLot){
-        this.parkingLotList.add(parkingLot);
-    }
-
-    public String showMessage(){
-        return message;
-    }
-
-    public List<ParkingLot> getParkingLotList() {
-        return parkingLotList;
-    }
-
-    public void setParkingLotList(List<ParkingLot> parkingLotList) {
-        this.parkingLotList = parkingLotList;
     }
 }
