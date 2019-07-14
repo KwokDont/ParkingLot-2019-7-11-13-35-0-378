@@ -13,7 +13,7 @@ public class ParkingLot {
 
     public Ticket parkingCar(Car car) {
         if (car != null) {
-            Ticket ticket = new Ticket(car);
+            Ticket ticket = new Ticket();
             cars.put(ticket, car);
             return ticket;
         }

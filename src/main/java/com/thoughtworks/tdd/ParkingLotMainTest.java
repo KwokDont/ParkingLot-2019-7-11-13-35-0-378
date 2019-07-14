@@ -38,4 +38,16 @@ public class ParkingLotMainTest {
         Assertions.assertSame(benz, fetchCar1);
         Assertions.assertSame(honda, fetchCar2);
     }
+
+    @Test
+    public void should_return_no_car_when_fetch_car_given_wrong_ticket() {
+        //given
+        Car benz = new Car("benz","no2");
+        ParkingBoy parkingBoy = new ParkingBoy();
+        Ticket fakeTicket = new Ticket();
+        //when
+        Car fetchCar = parkingBoy.fetchCar(parkingLot, fakeTicket);
+        //then
+        Assertions.assertSame(null, fetchCar);
+    }
 }
