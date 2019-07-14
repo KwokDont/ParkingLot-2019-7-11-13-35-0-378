@@ -64,4 +64,17 @@ public class ParkingLotMainTest {
         Assertions.assertSame(benz, fetchCar1);
         Assertions.assertSame(null, fetchCar2);
     }
+
+    @Test
+    public void should_return_null_when_no_position_given_car() {
+        //given
+        ParkingBoy parkingBoy = new ParkingBoy();
+        Car honda = new Car("honda", "no2");
+        parkingBoy.parkingCar(parkingLot, honda);
+        //when
+        Car benz = new Car("benz", "no1");
+        Ticket ticket = parkingBoy.parkingCar(parkingLot, benz);
+        //then
+        Assertions.assertSame(null, ticket);
+    }
 }
