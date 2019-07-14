@@ -16,9 +16,6 @@ public class ParkingLot {
     public ParkingLot(int capacity){ this.capacity = capacity; }
 
     public Ticket parkingCar(Car car) {
-        if(restPosition == 0){
-            return null;
-        }
         if(cars.containsValue(car)){
             return null;
         }
@@ -39,5 +36,21 @@ public class ParkingLot {
             return car;
         }
         return null;
+    }
+
+    public int getRestPosition() {
+        return restPosition;
+    }
+
+    public void setRestPosition(int restPosition) {
+        this.restPosition = restPosition;
+    }
+
+    public Map<Ticket, Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(Map<Ticket, Car> cars) {
+        this.cars = cars;
     }
 }

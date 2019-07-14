@@ -74,7 +74,9 @@ public class ParkingLotMainTest {
         //when
         Car benz = new Car("benz", "no1");
         Ticket ticket = parkingBoy.parkingCar(parkingLot, benz);
+        String message = parkingBoy.showMessage();
         //then
         Assertions.assertSame(null, ticket);
+        Assertions.assertSame("Not enough position.", message);
     }
 }
