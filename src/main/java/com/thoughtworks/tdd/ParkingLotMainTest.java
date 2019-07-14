@@ -7,6 +7,7 @@ public class ParkingLotMainTest {
 
     private ParkingLot parkingLot = new ParkingLot();
     private SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
+    private SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy();
 
     @Test
     public void should_return_car_when_fetch_car_given_ticket() {
@@ -166,6 +167,20 @@ public class ParkingLotMainTest {
         //when
         Car car = new Car("car","no1");
         Ticket ticket = smartParkingBoy.parkingCar(car);
+        ParkingLot parkingLotActual = ticket.getParkingLot();
+        //then
+        Assertions.assertSame(parkingLot2, parkingLotActual);
+    }
+
+    @Test
+    public void should_park_to_larger_available_position_rate_when_smart_parkingBoy_given_car() {
+        //given
+        ParkingLot parkingLot2 = new ParkingLot(3);
+        superSmartParkingBoy.addParkingLot(parkingLot);
+        superSmartParkingBoy.addParkingLot(parkingLot2);
+        //when
+        Car car = new Car("car","no1");
+        Ticket ticket = superSmartParkingBoy.parkingCar(car);
         ParkingLot parkingLotActual = ticket.getParkingLot();
         //then
         Assertions.assertSame(parkingLot, parkingLotActual);
