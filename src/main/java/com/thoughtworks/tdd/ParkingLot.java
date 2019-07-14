@@ -13,19 +13,22 @@ public class ParkingLot {
         this.restPosition = capacity;
     }
 
-    public ParkingLot(int capacity){ this.capacity = capacity; }
+    public ParkingLot(int capacity){
+        this.capacity = capacity;
+        this.restPosition = capacity;
+    }
 
     public Ticket parkingCar(Car car) {
+        if(restPosition == 0){
+            return null;
+        }
         if(cars.containsValue(car)){
             return null;
         }
-        if (car != null) {
-            Ticket ticket = new Ticket();
-            cars.put(ticket, car);
-            restPosition--;
-            return ticket;
-        }
-        return null;
+        Ticket ticket = new Ticket();
+        cars.put(ticket, car);
+        restPosition--;
+        return ticket;
     }
 
     public Car fetchCar(Ticket ticket) {

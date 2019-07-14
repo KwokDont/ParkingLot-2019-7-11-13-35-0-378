@@ -1,32 +1,57 @@
 package com.thoughtworks.tdd;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 public class ParkingBoy {
 
-    private String talkContent;
+    protected String message = "";
+    protected List<ParkingLot> parkingLotList = new ArrayList<>();
 
-    public Ticket parkingCar(ParkingLot parkingLot, Car car) {
-        if(parkingLot.getRestPosition() == 0){
-            talkContent = "Not enough position.";
+    public Ticket parkingCar(Car car) {
+        if(car == null){
             return null;
         }
-        Ticket ticket = parkingLot.parkingCar(car);
+        Ticket ticket = null;
+        for(ParkingLot parkingLot:parkingLotList){
+            ticket = parkingLot.parkingCar(car);
+            if(ticket != null){
+                break;
+            }
+        }
+        if(ticket == null){
+            message = "Not enough position.";
+        }
         return ticket;
     }
 
-    public Car fetchCar(ParkingLot parkingLot, Ticket ticket) {
+    public Car fetchCar(Ticket ticket) {
         if (ticket != null) {
-            if(!parkingLot.getCars().containsKey(ticket)){
-                talkContent = "Unrecognized parking ticket.";
+            if(!parkingLotList.get(0).getCars().containsKey(ticket)){
+                message = "Unrecognized parking ticket.";
                 return null;
             }else{
-                return parkingLot.fetchCar(ticket);
+                return parkingLotList.get(0).fetchCar(ticket);
             }
         }
-        talkContent = "Please provide your parking ticket.";
+        message = "Please provide your parking ticket.";
         return null;
     }
 
+    public void addParkingLot(ParkingLot parkingLot){
+        this.parkingLotList.add(parkingLot);
+    }
+
     public String showMessage(){
-        return talkContent;
+        return message;
+    }
+
+    public List<ParkingLot> getParkingLotList() {
+        return parkingLotList;
+    }
+
+    public void setParkingLotList(List<ParkingLot> parkingLotList) {
+        this.parkingLotList = parkingLotList;
     }
 }

@@ -12,9 +12,10 @@ public class ParkingLotMainTest {
         //given
         Car car = new Car();
         ParkingBoy parkingBoy = new ParkingBoy();
-        Ticket ticket = parkingBoy.parkingCar(parkingLot,car);
+        parkingBoy.addParkingLot(parkingLot);
+        Ticket ticket = parkingBoy.parkingCar(car);
         //when
-        Car fetchCar = parkingBoy.fetchCar(parkingLot,ticket);
+        Car fetchCar = parkingBoy.fetchCar(ticket);
         //then
         Assertions.assertSame(car, car);
     }
@@ -26,13 +27,14 @@ public class ParkingLotMainTest {
         Car benz = new Car("benz","no2");
         Car honda = new Car("honda","no3");
         ParkingBoy parkingBoy = new ParkingBoy();
-        Ticket ticket1 = parkingBoy.parkingCar(parkingLot, car);
-        Ticket ticket2 = parkingBoy.parkingCar(parkingLot, benz);
-        Ticket ticket3 = parkingBoy.parkingCar(parkingLot, honda);
+        parkingBoy.addParkingLot(parkingLot);
+        Ticket ticket1 = parkingBoy.parkingCar(car);
+        Ticket ticket2 = parkingBoy.parkingCar(benz);
+        Ticket ticket3 = parkingBoy.parkingCar(honda);
         //when
-        Car fetchCar1 = parkingBoy.fetchCar(parkingLot, ticket1);
-        Car fetchCar2 = parkingBoy.fetchCar(parkingLot, ticket2);
-        Car fetchCar3 = parkingBoy.fetchCar(parkingLot, ticket3);
+        Car fetchCar1 = parkingBoy.fetchCar(ticket1);
+        Car fetchCar2 = parkingBoy.fetchCar(ticket2);
+        Car fetchCar3 = parkingBoy.fetchCar(ticket3);
         //then
         Assertions.assertSame(car, fetchCar1);
         Assertions.assertSame(benz, fetchCar2);
@@ -44,9 +46,10 @@ public class ParkingLotMainTest {
         //given
         Car benz = new Car("benz","no2");
         ParkingBoy parkingBoy = new ParkingBoy();
+        parkingBoy.addParkingLot(parkingLot);
         Ticket fakeTicket = new Ticket();
         //when
-        Car fetchCar = parkingBoy.fetchCar(parkingLot, fakeTicket);
+        Car fetchCar = parkingBoy.fetchCar(fakeTicket);
         //then
         Assertions.assertSame(null, fetchCar);
     }
@@ -56,10 +59,11 @@ public class ParkingLotMainTest {
         //given
         Car benz = new Car("benz","no1");
         ParkingBoy parkingBoy = new ParkingBoy();
-        Ticket ticket = parkingBoy.parkingCar(parkingLot, benz);
+        parkingBoy.addParkingLot(parkingLot);
+        Ticket ticket = parkingBoy.parkingCar(benz);
         //when
-        Car fetchCar1 = parkingBoy.fetchCar(parkingLot, ticket);
-        Car fetchCar2 = parkingBoy.fetchCar(parkingLot, ticket);
+        Car fetchCar1 = parkingBoy.fetchCar(ticket);
+        Car fetchCar2 = parkingBoy.fetchCar(ticket);
         //then
         Assertions.assertSame(benz, fetchCar1);
         Assertions.assertSame(null, fetchCar2);
@@ -69,14 +73,62 @@ public class ParkingLotMainTest {
     public void should_return_null_when_no_position_given_car() {
         //given
         ParkingBoy parkingBoy = new ParkingBoy();
+        parkingBoy.addParkingLot(parkingLot);
+        ParkingLot parkingLot2 = new ParkingLot(2);
+        parkingBoy.addParkingLot(parkingLot2);
         Car honda = new Car("honda", "no2");
-        parkingBoy.parkingCar(parkingLot, honda);
+        parkingBoy.parkingCar(honda);
         //when
         Car benz = new Car("benz", "no1");
-        Ticket ticket = parkingBoy.parkingCar(parkingLot, benz);
+        Ticket ticket = parkingBoy.parkingCar(benz);
         String message = parkingBoy.showMessage();
         //then
-        Assertions.assertSame(null, ticket);
-        Assertions.assertSame("Not enough position.", message);
+        Assertions.assertSame("", message);
+    }
+
+    @Test
+    public void should_parking_car_to_next_parkingLot_when_first_parkingLot_no_position_given_car() {
+        //given
+        StupidBoy parkingBoy = new StupidBoy();
+        ParkingLot parkingLot2 = new ParkingLot(1);
+        parkingBoy.addParkingLot(parkingLot);
+        parkingBoy.addParkingLot(parkingLot2);
+
+        Car car = new Car("car","no1");
+        Car benz = new Car("benz","no2");
+        Car honda = new Car("honda","no3");
+        //when
+        Ticket ticket = parkingBoy.parkingCar(car);
+        Ticket ticket2 = parkingBoy.parkingCar(benz);
+        Ticket ticket3 = parkingBoy.parkingCar(honda);
+
+        Car fetchCar = parkingBoy.fetchCar(ticket2);
+        //then
+        Assertions.assertSame(null, ticket3);
+        Assertions.assertSame(benz, fetchCar);
+    }
+
+    @Test
+    public void should_return_ticket__when_smart_parkingBoy_given_car() {
+        //given
+        StupidBoy parkingBoy = new StupidBoy();
+        ParkingLot parkingLot2 = new ParkingLot(1);
+        parkingBoy.addParkingLot(parkingLot);
+        parkingBoy.addParkingLot(parkingLot2);
+
+        Car car = new Car("car","no1");
+        Car benz = new Car("benz","no2");
+        Car honda = new Car("honda","no3");
+        //when
+        Ticket ticket = parkingBoy.parkingCar(car);
+        Car fetchCar = parkingBoy.fetchCar(ticket);
+        Ticket ticket2 = parkingBoy.parkingCar(benz);
+        Ticket ticket3 = parkingBoy.parkingCar(honda);
+
+        Car fetchCar2 = parkingBoy.fetchCar(ticket2);
+        Car fetchCar3 = parkingBoy.fetchCar(ticket3);
+        //then
+        Assertions.assertSame(benz, fetchCar2);
+        Assertions.assertSame(honda, fetchCar3);
     }
 }
