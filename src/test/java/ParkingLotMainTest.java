@@ -184,7 +184,7 @@ public class ParkingLotMainTest {
     @Test
     public void should_park_and_fetch_car_when_manage_specify_parkingBoy() {
 
-        ParkingLotManager parkingLotManager = new ParkingLotManager();
+        ParkingLotManager parkingLotManager = new ParkingLotManager(parkingLot);
         smartParkingBoy.addParkingLot(parkingLot);
         parkingLotManager.addParkingBoy(smartParkingBoy);
 
@@ -196,11 +196,9 @@ public class ParkingLotMainTest {
     }
 
     @Test
-    public void should_return_car_when_manage_given_car() {
+    public void should_park_and_fetch_car_when_no_parking_boy() {
         //given
-        ParkingLotManager parkingLotManager = new ParkingLotManager();
-        parkingLotManager.addParkingBoy(smartParkingBoy);
-        parkingLotManager.addParkingLot(parkingLot);
+        ParkingLotManager parkingLotManager = new ParkingLotManager(parkingLot);
         Car car = new Car("car", "no1");
         Ticket ticket = parkingLotManager.parkingCar(car);
         //when
