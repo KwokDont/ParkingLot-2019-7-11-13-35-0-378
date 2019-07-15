@@ -4,7 +4,7 @@ import com.thoughtworks.tdd.exception.ParkingLotFullException;
 
 import java.util.Comparator;
 
-public class SmartParkingBoy extends ParkingBoy {
+public class SmartParkingBoy extends Boy implements Parkable {
 
     @Override
     public Ticket parkingCar(Car car) {

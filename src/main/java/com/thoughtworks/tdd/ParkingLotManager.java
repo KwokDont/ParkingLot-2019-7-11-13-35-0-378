@@ -8,28 +8,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ParkingLotManager extends Boy {
-    private List<Boy> parkingBoys = new ArrayList<>();
-    private List<ParkingLot> parkingLots = new ArrayList<>();
+public class ParkingLotManager implements Parkable {
+    private List<Parkable> parkables = new ArrayList<>();
 
-    public ParkingLotManager(Boy... boys){
-        this.parkingBoys.addAll(Arrays.asList(boys));
-    }
-
-    public ParkingLotManager(ParkingLot... Lots){
-        this.parkingLots.addAll(Arrays.asList(Lots));
+    public ParkingLotManager(Parkable... parkers){
+        this.parkables.addAll(Arrays.asList(parkers));
     }
 
     @Override
     public Ticket parkingCar(Car car) {
-        for(Boy boy : parkingBoys){
-            if(!boy.isFull()){
-                return boy.parkingCar(car);
-            }
-        }
-        for(ParkingLot parkingLot : parkingLots){
-            if(!parkingLot.isFull()){
-                return parkingLot.parkingCar(car);
+        for(Parkable parkable : parkables){
+            if(!parkable.isFull()){
+                return parkable.parkingCar(car);
             }
         }
         throw new ParkingLotFullException();
@@ -37,24 +27,33 @@ public class ParkingLotManager extends Boy {
 
     @Override
     public Car fetchCar(Ticket ticket) throws TicketMissingException {
-        for(Boy boy : parkingBoys){
-            if(boy.containTicket(ticket)){
-                return boy.fetchCar(ticket);
-            }
-        }
-        for(ParkingLot parkingLot : parkingLots){
-            if(parkingLot.containsTicket(ticket)){
-                return parkingLot.fetchCar(ticket);
+        for(Parkable parkable : parkables){
+            if(parkable.containTicket(ticket)){
+                return parkable.fetchCar(ticket);
             }
         }
         throw new UnrecognizedTicketException();
     }
 
-    public void addParkingBoy(Boy boy){
-        parkingBoys.add(boy);
+    public void addParkable(Parkable parkable){
+        parkables.add(parkable);
     }
 
-    public List<Boy> getParkingBoys() { return parkingBoys; }
+    @Override
+    public boolean isFull() {
+        return false;
+    }
 
-    public void setParkingBoys(List<Boy> parkingBoys) { this.parkingBoys = parkingBoys; }
+    @Override
+    public boolean containTicket(Ticket ticket) {
+        return false;
+    }
+
+    public List<Parkable> getParkables() {
+        return parkables;
+    }
+
+    public void setParkables(List<Parkable> parkables) {
+        this.parkables = parkables;
+    }
 }

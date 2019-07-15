@@ -2,7 +2,7 @@ package com.thoughtworks.tdd;
 
 import com.thoughtworks.tdd.exception.ParkingLotFullException;
 
-public class ParkingBoy extends Boy{
+public class ParkingBoy extends Boy implements Parkable {
 
 
     @Override

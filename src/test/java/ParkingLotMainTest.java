@@ -178,7 +178,7 @@ public class ParkingLotMainTest {
 
         ParkingLotManager parkingLotManager = new ParkingLotManager(parkingLot);
         smartParkingBoy.addParkingLot(parkingLot);
-        parkingLotManager.addParkingBoy(smartParkingBoy);
+        parkingLotManager.addParkable(smartParkingBoy);
 
         Car car = new Car("car", "no1");
         Ticket ticket = parkingLotManager.parkingCar(car);
@@ -199,42 +199,4 @@ public class ParkingLotMainTest {
         Assertions.assertSame(car, fetchCar);
     }
 
-//    @Test
-//    public void should_return_null_when_manage_fetch_car_given_wrong_ticket() {
-//        //given
-//        ParkingLotManager parkingLotManager = new ParkingLotManager();
-//        parkingLotManager.addParkingBoy(smartParkingBoy);
-//        smartParkingBoy.addParkingLot(parkingLot);
-//        List<Boy> parkingBoys = parkingLotManager.getParkingBoyList();
-//        Ticket fakeTicket = null;
-//        //when
-//        Car fetchCar = null;
-//        String message = null;
-//        for (Boy boy : parkingBoys) {
-//            fetchCar = boy.fetchCar(fakeTicket);
-//            message = boy.showMessage();
-//        }
-//        //then
-//        Assertions.assertSame(null, fetchCar);
-//        Assertions.assertSame("Please provide your parking ticket.", message);
-//    }
-//
-//    @Test
-//    public void should_return_null_when_manage_fetch_car_given_used_tickets() {
-//        //given
-//        ParkingLotManager parkingLotManager = new ParkingLotManager();
-//        parkingLotManager.addParkingBoy(smartParkingBoy);
-//        smartParkingBoy.addParkingLot(parkingLot);
-//        List<Boy> parkingBoys = parkingLotManager.getParkingBoyList();
-//        Car car = new Car("BMW", "123456");
-//        SmartParkingBoy parkingBoy = (SmartParkingBoy) parkingBoys.get(0);
-//        Ticket ticket = parkingBoy.parkingCar(car);
-//        //when
-//        Car fetchCar = parkingBoy.fetchCar(ticket);
-//        Car fetchCarAgain = parkingBoy.fetchCar(ticket);
-//        String message = parkingBoy.showMessage();
-//        //then
-//        Assertions.assertSame(null, fetchCarAgain);
-//        Assertions.assertSame("Unrecognized parking ticket.", message);
-//    }
 }

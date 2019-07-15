@@ -3,7 +3,7 @@ package com.thoughtworks.tdd;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ParkingLot {
+public class ParkingLot implements Parkable {
     private final int capacity;
     private int restPosition;
     private ParkingLotManager parkingLotManager;
@@ -42,7 +42,7 @@ public class ParkingLot {
         return null;
     }
 
-    public boolean containsTicket(Ticket ticket){
+    public boolean containTicket(Ticket ticket){
         return cars.containsKey(ticket);
     }
 

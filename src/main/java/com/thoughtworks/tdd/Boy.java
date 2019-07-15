@@ -6,7 +6,7 @@ import com.thoughtworks.tdd.exception.UnrecognizedTicketException;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Boy {
+public abstract class Boy implements Parkable{
     protected String message = "";
     protected List<ParkingLot> parkingLotList = new ArrayList<>();
 
@@ -19,7 +19,7 @@ public abstract class Boy {
         if(!containTicket(ticket)){
             throw new UnrecognizedTicketException();
         }
-        ParkingLot parkingLot = parkingLotList.stream().filter(parkingLot1 -> parkingLot1.containsTicket(ticket)).findFirst().get();
+        ParkingLot parkingLot = parkingLotList.stream().filter(parkingLot1 -> parkingLot1.containTicket(ticket)).findFirst().get();
         return parkingLot.fetchCar(ticket);
     }
 
@@ -28,7 +28,7 @@ public abstract class Boy {
     }
 
     public boolean containTicket(Ticket ticket){
-        return parkingLotList.stream().anyMatch(parkingLot -> parkingLot.containsTicket(ticket));
+        return parkingLotList.stream().anyMatch(parkingLot -> parkingLot.containTicket(ticket));
     }
 
     public void addParkingLot(ParkingLot parkingLot){
