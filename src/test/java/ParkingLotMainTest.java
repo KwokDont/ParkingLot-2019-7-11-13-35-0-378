@@ -9,6 +9,7 @@ import java.util.List;
 public class ParkingLotMainTest {
 
     private ParkingLot parkingLot = new ParkingLot();
+    ParkingBoy parkingBoy = new ParkingBoy();
     private SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
     private SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy();
 
@@ -16,7 +17,6 @@ public class ParkingLotMainTest {
     public void should_return_car_when_fetch_car_given_ticket() {
         //given
         Car car = new Car();
-        ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.addParkingLot(parkingLot);
         Ticket ticket = parkingBoy.parkingCar(car);
         //when
@@ -31,7 +31,7 @@ public class ParkingLotMainTest {
         Car car = new Car("car","no1");
         Car benz = new Car("benz","no2");
         Car honda = new Car("honda","no3");
-        ParkingBoy parkingBoy = new ParkingBoy();
+
         parkingBoy.addParkingLot(parkingLot);
         Ticket ticket1 = parkingBoy.parkingCar(car);
         Ticket ticket2 = parkingBoy.parkingCar(benz);
@@ -50,7 +50,6 @@ public class ParkingLotMainTest {
     public void should_throw_unrecognized_ticket_exception_when_fetch_car_given_wrong_ticket() {
         //given
         Car benz = new Car("benz","no2");
-        ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.addParkingLot(parkingLot);
         Ticket fakeTicket = new Ticket();
         //then
@@ -61,7 +60,6 @@ public class ParkingLotMainTest {
     public void should_throw_unrecognized_exception_when_fetch_car_given_tickets_used() {
         //given
         Car benz = new Car("benz","no1");
-        ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.addParkingLot(parkingLot);
         Ticket ticket = parkingBoy.parkingCar(benz);
         //when
@@ -73,7 +71,6 @@ public class ParkingLotMainTest {
     @Test
     public void should_throw_parkinglot_full_exception_when_no_position_given_car() {
         //given
-        ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.addParkingLot(parkingLot);
         ParkingLot parkingLot2 = new ParkingLot(2);
         parkingBoy.addParkingLot(parkingLot2);
@@ -91,7 +88,6 @@ public class ParkingLotMainTest {
     public void should_throw_ticket_missing_exception_when_fetch_car_given_no_ticket() {
         //given
         Car benz = new Car("benz","no2");
-        ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.addParkingLot(parkingLot);
         Ticket fakeTicket = null;
         //then
@@ -101,11 +97,9 @@ public class ParkingLotMainTest {
     @Test
     public void should_parking_car_to_first_parkingLot_given_car() {
         //given
-        ParkingBoy parkingBoy = new ParkingBoy();
         ParkingLot parkingLot2 = new ParkingLot(2);
         parkingBoy.addParkingLot(parkingLot);
         parkingBoy.addParkingLot(parkingLot2);
-
         Car car = new Car("car","no1");
         //when
         Ticket ticket = parkingBoy.parkingCar(car);
@@ -116,7 +110,6 @@ public class ParkingLotMainTest {
     @Test
     public void should_parking_car_to_next_parkingLot_when_first_parkingLot_is_full_given_car() {
         //given
-        ParkingBoy parkingBoy = new ParkingBoy();
         ParkingLot parkingLot2 = new ParkingLot(2);
         parkingBoy.addParkingLot(parkingLot);
         parkingBoy.addParkingLot(parkingLot2);
@@ -136,15 +129,14 @@ public class ParkingLotMainTest {
     @Test
     public void should_park_and_fetch_car_to_more_empty_lot_when_parked_by_smart_parkingBoy() {
         //given
-        SmartParkingBoy parkingBoy = new SmartParkingBoy();
         ParkingLot parkingLot2 = new ParkingLot(4);
-        parkingBoy.addParkingLot(parkingLot);
-        parkingBoy.addParkingLot(parkingLot2);
+        smartParkingBoy.addParkingLot(parkingLot);
+        smartParkingBoy.addParkingLot(parkingLot2);
         Car car = new Car("car","no1");
         //when
-        Ticket ticket = parkingBoy.parkingCar(car);
+        Ticket ticket = smartParkingBoy.parkingCar(car);
         ParkingLot parkedLot = ticket.getParkingLot();
-        Car fetchCar = parkingBoy.fetchCar(ticket);
+        Car fetchCar = smartParkingBoy.fetchCar(ticket);
         //then
         Assertions.assertSame(parkingLot2, parkedLot);
         Assertions.assertSame(car, fetchCar);

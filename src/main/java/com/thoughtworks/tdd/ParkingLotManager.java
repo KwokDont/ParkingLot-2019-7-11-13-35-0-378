@@ -1,6 +1,8 @@
 package com.thoughtworks.tdd;
 
+import com.thoughtworks.tdd.exception.ParkingLotFullException;
 import com.thoughtworks.tdd.exception.TicketMissingException;
+import com.thoughtworks.tdd.exception.UnrecognizedTicketException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +32,7 @@ public class ParkingLotManager extends Boy {
                 return parkingLot.parkingCar(car);
             }
         }
-        return null;
+        throw new ParkingLotFullException();
     }
 
     @Override
@@ -45,7 +47,7 @@ public class ParkingLotManager extends Boy {
                 return parkingLot.fetchCar(ticket);
             }
         }
-        return null;
+        throw new UnrecognizedTicketException();
     }
 
     public void addParkingBoy(Boy boy){
