@@ -42,6 +42,12 @@ public class ParkingLot {
         return null;
     }
 
+    public boolean containsTicket(Ticket ticket){
+        return cars.containsKey(ticket);
+    }
+
+    public boolean isFull(){ return restPosition == 0; }
+
     public int getCapacity() {
         return capacity;
     }
@@ -69,4 +75,12 @@ public class ParkingLot {
     public void setCars(Map<Ticket, Car> cars) {
         this.cars = cars;
     }
+
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (this == obj) return true;
+//        if (!(obj instanceof ParkingLot)) return false;
+//        ParkingLot parkingLot = (ParkingLot)obj;
+//        return this.getRestPosition() == parkingLot.getRestPosition();
+//    }
 }

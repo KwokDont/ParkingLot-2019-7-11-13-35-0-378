@@ -1,36 +1,20 @@
 package com.thoughtworks.tdd;
 
-import java.security.PublicKey;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
+import com.thoughtworks.tdd.exception.ParkingLotFullException;
 
 public class ParkingBoy extends Boy{
 
 
     @Override
     public Ticket parkingCar(Car car) {
-        if(car == null){
-            return null;
+        if(isFull()){
+            throw new ParkingLotFullException();
         }
-        Ticket ticket = null;
-        ticket = parkingLotList.get(0).parkingCar(car);
-        if(ticket == null){
-            message = "Not enough position.";
+        ParkingLot parkingLot = parkingLotList.stream().filter(parkingLot1 -> !parkingLot1.isFull()).findFirst().get();
+        Ticket ticket = parkingLot.parkingCar(car);
+        if(ticket != null){
+            ticket.setParkingLot(parkingLot);
         }
         return ticket;
-    }
-
-    public Car fetchCar(Ticket ticket) {
-        if (ticket != null) {
-            if(!parkingLotList.get(0).getCars().containsKey(ticket)){
-                message = "Unrecognized parking ticket.";
-                return null;
-            }else{
-                return parkingLotList.get(0).fetchCar(ticket);
-            }
-        }
-        message = "Please provide your parking ticket.";
-        return null;
     }
 }

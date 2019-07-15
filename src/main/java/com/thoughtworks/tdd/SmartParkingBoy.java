@@ -1,28 +1,19 @@
 package com.thoughtworks.tdd;
 
+import com.thoughtworks.tdd.exception.ParkingLotFullException;
+
+import java.util.Comparator;
+
 public class SmartParkingBoy extends ParkingBoy {
 
     @Override
     public Ticket parkingCar(Car car) {
-        if (car != null) {
-            Ticket ticket = null;
-            int temp = 0, index = -1;
-            for (int i = 0; i < parkingLotList.size(); i++) {
-                ParkingLot parkingLot = parkingLotList.get(i);
-                if ( parkingLot.getRestPosition() > temp ){
-                    temp = parkingLot.getRestPosition();
-                    index = i;
-                }
-            }
-            if (temp>0){
-                ParkingLot parkingLot = parkingLotList.get(index);
-                ticket = parkingLot.parkingCar(car);
-                ticket.setParkingLot(parkingLot);
-            }else{
-                message = "Not enough position.";
-            }
-            return ticket;
+        if(isFull()){
+            throw new ParkingLotFullException();
         }
-        return null;
+        ParkingLot parkingLot = parkingLotList.stream().max(Comparator.comparingInt(ParkingLot::getRestPosition)).get();
+        Ticket ticket = parkingLot.parkingCar(car);
+        ticket.setParkingLot(parkingLot);
+        return ticket;
     }
 }

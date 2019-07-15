@@ -1,5 +1,7 @@
 package com.thoughtworks.tdd;
 
+import com.thoughtworks.tdd.exception.TicketMissingException;
+import com.thoughtworks.tdd.exception.UnrecognizedTicketException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -46,20 +48,18 @@ public class ParkingLotMainTest {
     }
 
     @Test
-    public void should_return_no_car_when_fetch_car_given_wrong_ticket() {
+    public void should_throw_unrecognized_ticket_exception_when_fetch_car_given_wrong_ticket() {
         //given
         Car benz = new Car("benz","no2");
         ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.addParkingLot(parkingLot);
         Ticket fakeTicket = new Ticket();
-        //when
-        Car fetchCar = parkingBoy.fetchCar(fakeTicket);
         //then
-        Assertions.assertSame(null, fetchCar);
+        Assertions.assertThrows(UnrecognizedTicketException.class, ()-> parkingBoy.fetchCar(fakeTicket));
     }
 
     @Test
-    public void should_return_no_car_when_fetch_car_given_tickets_used() {
+    public void should_throw_unrecognized_exception_when_fetch_car_given_tickets_used() {
         //given
         Car benz = new Car("benz","no1");
         ParkingBoy parkingBoy = new ParkingBoy();
@@ -67,14 +67,12 @@ public class ParkingLotMainTest {
         Ticket ticket = parkingBoy.parkingCar(benz);
         //when
         Car fetchCar1 = parkingBoy.fetchCar(ticket);
-        Car fetchCar2 = parkingBoy.fetchCar(ticket);
         //then
-        Assertions.assertSame(benz, fetchCar1);
-        Assertions.assertSame(null, fetchCar2);
+        Assertions.assertThrows(UnrecognizedTicketException.class, ()-> parkingBoy.fetchCar(ticket));
     }
 
     @Test
-    public void should_return_null_when_no_position_given_car() {
+    public void should_throw_parkinglot_full_exception_when_no_position_given_car() {
         //given
         ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.addParkingLot(parkingLot);
@@ -91,91 +89,71 @@ public class ParkingLotMainTest {
     }
 
     @Test
-    public void should_parking_car_to_next_parkingLot_when_first_parkingLot_no_position_given_car() {
+    public void should_throw_ticket_missing_exception_when_fetch_car_given_no_ticket() {
         //given
-        StupidBoy parkingBoy = new StupidBoy();
-        ParkingLot parkingLot2 = new ParkingLot(1);
-        parkingBoy.addParkingLot(parkingLot);
-        parkingBoy.addParkingLot(parkingLot2);
-
-        Car car = new Car("car","no1");
         Car benz = new Car("benz","no2");
-        Car honda = new Car("honda","no3");
-        //when
-        Ticket ticket = parkingBoy.parkingCar(car);
-        Ticket ticket2 = parkingBoy.parkingCar(benz);
-        Ticket ticket3 = parkingBoy.parkingCar(honda);
-
-        Car fetchCar = parkingBoy.fetchCar(ticket2);
+        ParkingBoy parkingBoy = new ParkingBoy();
+        parkingBoy.addParkingLot(parkingLot);
+        Ticket fakeTicket = null;
         //then
-        Assertions.assertSame(null, ticket3);
-        Assertions.assertSame(benz, fetchCar);
+        Assertions.assertThrows(TicketMissingException.class, ()-> parkingBoy.fetchCar(fakeTicket));
     }
 
     @Test
-    public void should_return_ticket_when_stupidparkingBoy_given_car() {
+    public void should_parking_car_to_first_parkingLot_given_car() {
         //given
-        StupidBoy parkingBoy = new StupidBoy();
-        ParkingLot parkingLot2 = new ParkingLot(1);
-        parkingBoy.addParkingLot(parkingLot);
-        parkingBoy.addParkingLot(parkingLot2);
-
-        Car car = new Car("car","no1");
-        Car benz = new Car("benz","no2");
-        Car honda = new Car("honda","no3");
-        //when
-        Ticket ticket = parkingBoy.parkingCar(car);
-        Car fetchCar = parkingBoy.fetchCar(ticket);
-        Ticket ticket2 = parkingBoy.parkingCar(benz);
-        Ticket ticket3 = parkingBoy.parkingCar(honda);
-
-        Car fetchCar2 = parkingBoy.fetchCar(ticket2);
-        Car fetchCar3 = parkingBoy.fetchCar(ticket3);
-        //then
-        Assertions.assertSame(benz, fetchCar2);
-        Assertions.assertSame(honda, fetchCar3);
-    }
-
-    @Test
-    public void should_return_ticket_when_super_smart_parkingBoy_given_car() {
-        //given
-        StupidBoy parkingBoy = new StupidBoy();
-        ParkingLot parkingLot2 = new ParkingLot(1);
-        parkingBoy.addParkingLot(parkingLot);
-        parkingBoy.addParkingLot(parkingLot2);
-
-        Car car = new Car("car","no1");
-        Car benz = new Car("benz","no2");
-        Car honda = new Car("honda","no3");
-        //when
-        Ticket ticket = parkingBoy.parkingCar(car);
-        Car fetchCar = parkingBoy.fetchCar(ticket);
-        Ticket ticket2 = parkingBoy.parkingCar(benz);
-        Ticket ticket3 = parkingBoy.parkingCar(honda);
-
-        Car fetchCar2 = parkingBoy.fetchCar(ticket2);
-        Car fetchCar3 = parkingBoy.fetchCar(ticket3);
-        //then
-        Assertions.assertSame(benz, fetchCar2);
-        Assertions.assertSame(honda, fetchCar3);
-    }
-
-    @Test
-    public void should_park_to_multiple_lot_when_smart_parkingBoy_given_car() {
-        //given
+        ParkingBoy parkingBoy = new ParkingBoy();
         ParkingLot parkingLot2 = new ParkingLot(2);
-        smartParkingBoy.addParkingLot(parkingLot);
-        smartParkingBoy.addParkingLot(parkingLot2);
-        //when
+        parkingBoy.addParkingLot(parkingLot);
+        parkingBoy.addParkingLot(parkingLot2);
+
         Car car = new Car("car","no1");
-        Ticket ticket = smartParkingBoy.parkingCar(car);
-        ParkingLot parkingLotActual = ticket.getParkingLot();
+        //when
+        Ticket ticket = parkingBoy.parkingCar(car);
         //then
-        Assertions.assertSame(parkingLot2, parkingLotActual);
+        Assertions.assertSame(parkingLot, ticket.getParkingLot());
     }
 
     @Test
-    public void should_park_to_larger_available_position_rate_when_smart_parkingBoy_given_car() {
+    public void should_parking_car_to_next_parkingLot_when_first_parkingLot_is_full_given_car() {
+        //given
+        ParkingBoy parkingBoy = new ParkingBoy();
+        ParkingLot parkingLot2 = new ParkingLot(2);
+        parkingBoy.addParkingLot(parkingLot);
+        parkingBoy.addParkingLot(parkingLot2);
+
+        Car car = new Car("car","no1");
+        Car benz = new Car("benz","no2");
+        Car honda = new Car("honda","no3");
+        //when
+        Ticket ticket = parkingBoy.parkingCar(car);
+        Ticket ticket2 = parkingBoy.parkingCar(benz);
+        Ticket ticket3 = parkingBoy.parkingCar(honda);
+        //then
+        Assertions.assertSame(parkingLot2, ticket2.getParkingLot());
+        Assertions.assertSame(parkingLot2, ticket3.getParkingLot());
+    }
+
+    @Test
+    public void should_park_and_fetch_car_to_more_empty_lot_when_parked_by_smart_parkingBoy() {
+        //given
+        SmartParkingBoy parkingBoy = new SmartParkingBoy();
+        ParkingLot parkingLot2 = new ParkingLot(2);
+        parkingBoy.addParkingLot(parkingLot);
+        parkingBoy.addParkingLot(parkingLot2);
+        Car car = new Car("car","no1");
+        //when
+        Ticket ticket = parkingBoy.parkingCar(car);
+        ParkingLot parkedLot = ticket.getParkingLot();
+        Car fetchCar = parkingBoy.fetchCar(ticket);
+        //then
+        Assertions.assertSame(parkingLot2, parkedLot);
+        Assertions.assertSame(car, fetchCar);
+    }
+
+
+    @Test
+    public void should_park_car_to_larger_available_position_rate_lot() {
         //given
         ParkingLot parkingLot2 = new ParkingLot(3);
         superSmartParkingBoy.addParkingLot(parkingLot);
@@ -186,6 +164,20 @@ public class ParkingLotMainTest {
         ParkingLot parkingLotActual = ticket.getParkingLot();
         //then
         Assertions.assertSame(parkingLot, parkingLotActual);
+    }
+
+    @Test
+    public void should_return_car_from_larger_available_position_rate_lot() {
+        //given
+        ParkingLot parkingLot2 = new ParkingLot(3);
+        superSmartParkingBoy.addParkingLot(parkingLot);
+        superSmartParkingBoy.addParkingLot(parkingLot2);
+        //when
+        Car car = new Car("car","no1");
+        Ticket ticket = superSmartParkingBoy.parkingCar(car);
+        Car fetchCar = superSmartParkingBoy.fetchCar(ticket);
+        //then
+        Assertions.assertSame(car, fetchCar);
     }
 
     @Test
