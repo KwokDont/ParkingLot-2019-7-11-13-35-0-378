@@ -52,6 +52,11 @@ public class ParkingLot {
         return capacity;
     }
 
+    public double getAvailableRate(){
+        double cap = (double) getCapacity();
+        return (double) restPosition / cap;
+    }
+
     public ParkingLotManager getParkingLotManager() {
         return parkingLotManager;
     }
@@ -76,11 +81,4 @@ public class ParkingLot {
         this.cars = cars;
     }
 
-//    @Override
-//    public boolean equals(Object obj) {
-//        if (this == obj) return true;
-//        if (!(obj instanceof ParkingLot)) return false;
-//        ParkingLot parkingLot = (ParkingLot)obj;
-//        return this.getRestPosition() == parkingLot.getRestPosition();
-//    }
 }

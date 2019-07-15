@@ -1,5 +1,4 @@
-package com.thoughtworks.tdd;
-
+import com.thoughtworks.tdd.*;
 import com.thoughtworks.tdd.exception.TicketMissingException;
 import com.thoughtworks.tdd.exception.UnrecognizedTicketException;
 import org.junit.jupiter.api.Assertions;
@@ -179,6 +178,8 @@ public class ParkingLotMainTest {
         //then
         Assertions.assertSame(car, fetchCar);
     }
+
+
 
     @Test
     public void should_return_car_when_manage_specify_parkingBoy_given_car() {
